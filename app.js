@@ -17,7 +17,7 @@ const regionNames = new Intl.DisplayNames(['sl'], {type:'region'});
 const countryName = code => /^[A-Z]{2}$/.test(code ?? '') ? regionNames.of(code) : (code || '');
 const flag = code => /^[A-Z]{2}$/.test(code ?? '') ? [...code].map(char => String.fromCodePoint(127397 + char.charCodeAt(0))).join('') : '';
 const countries = countryCodes.map(code => ({code,name:countryName(code)})).sort((a,b) => a.name.localeCompare(b.name,'sl'));
-const option = ({code,name}) => `<option value="${esc(code)}">${flag(code) || '🌍'} ${esc(name)}</option>`;
+const option = ({code,name}) => `<option value="${esc(code)}">${flag(code) ? flag(code) + ' ' : ''}${esc(name)}</option>`;
 $('#hike-country').insertAdjacentHTML('beforeend', countries.filter(c => ['SI','AT','IT'].includes(c.code)).sort((a,b) => ['SI','AT','IT'].indexOf(a.code)-['SI','AT','IT'].indexOf(b.code)).map(option).join('') + '<option value="custom">Druga država...</option>');
 const englishNames = new Intl.DisplayNames(['en'], {type:'region'});
 const normalizeCountry = value => {
@@ -109,7 +109,7 @@ function card(hike) {
   const badge = difficulties[hike.difficulty] ? `<span class="difficulty ${hike.difficulty}">${icons.bars}${difficulties[hike.difficulty]}</span>` : '';
   return `<article class="hike" data-id="${esc(hike.id)}" aria-label="${title}">
     <button class="complete-button ${hike.completed?'done':''}" data-action="${hike.completed?'reopen':'complete'}" aria-label="${hike.completed?'Vrni na seznam':'Označi kot prehojeno'}: ${title}" title="${hike.completed?'Vrni na seznam':'Označi kot prehojeno'}">${icons.check}</button>
-    <div class="hike-main"><div class="hike-title-row"><h3>${title}</h3>${hike.country?`<span class="flag" role="img" aria-label="${esc(countryName(hike.country))}" title="${esc(countryName(hike.country))}">${flag(hike.country) || `🌍 <span class="country-text">${esc(countryName(hike.country))}</span>`}</span>`:''}${badge}
+    <div class="hike-main"><div class="hike-title-row"><h3>${title}</h3>${hike.country?`<span class="flag" role="img" aria-label="${esc(countryName(hike.country))}" title="${esc(countryName(hike.country))}">${flag(hike.country) || `<span class="country-text">${esc(countryName(hike.country))}</span>`}</span>`:''}${badge}
     <div class="hike-bottom">${sourceLink(hike.reel_url,'Reel','instagram')}${sourceLink(hike.hribi_url,'Hribi.net','mountain')}${hike.completed?sourceLink(hike.strava_url,'Strava','strava','strava'):''}
     <div class="hike-actions"><button class="icon-button" data-action="edit" aria-label="Uredi: ${title}" title="Uredi pohod">${icons.edit}</button><button class="icon-button" data-action="delete" aria-label="Odstrani: ${title}" title="Odstrani pohod">${icons.trash}</button></div></div></div>
     ${hike.notes?`<p class="hike-notes">${esc(hike.notes)}</p>`:''}</div></article>`;
