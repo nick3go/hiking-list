@@ -7,7 +7,7 @@ grant usage on schema hikes_private to anon, authenticated;
 create table hikes_private.hikes (
   id uuid primary key default gen_random_uuid(),
   title text not null check (char_length(btrim(title)) between 1 and 160),
-  country text check (country ~ '^[A-Z]{2}$'),
+  country text check (char_length(btrim(country)) between 1 and 80),
   difficulty text check (difficulty in ('easy','medium','hard')),
   reel_url text check (char_length(reel_url) <= 2048 and reel_url ~ '^https?://'),
   hribi_url text check (char_length(hribi_url) <= 2048 and hribi_url ~ '^https?://'),
@@ -75,3 +75,4 @@ revoke all on function public.hikes_api(text,jsonb) from public;
 grant execute on function public.hikes_api(text,jsonb) to anon, authenticated;
 comment on function public.hikes_api(text,jsonb) is 'Deliberately login-free shared hike list. Invoker privileges; private unexposed schema; no service key.';
 notify pgrst, 'reload schema';
+

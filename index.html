@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#0c1928">
   <meta name="robots" content="noindex,nofollow">
   <meta name="description" content="Od shranjenega reela do razgleda. Skupni seznam idej za pohode.">
-  <title>Baje se hod v hribe...</title>
+  <title>wanna be hikers</title>
   <link rel="icon" href="./mountain.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./style.css">
   <script type="module" src="./app.js"></script>
@@ -15,38 +15,10 @@
   <a class="skip" href="#seznam">Preskoči na seznam</a>
   <div class="shell">
     <header class="topbar">
-      <a class="brand" href="./" aria-label="Baje se hod v hribe... – domov"><span class="brand-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="m3 25 10-18 7 12 4-7 6 13H3Z"/><path d="m10 13 3 3 3-3"/></svg></span><span>BAJE SE HOD V HRIBE<span class="brand-dots">...</span></span></a>
-      <span class="top-note">Dobra družba. Slabe bližnjice.</span>
+      <a class="brand" href="./" aria-label="wanna be hikers – domov"><span class="brand-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="m3 25 10-18 7 12 4-7 6 13H3Z"/><path d="m10 13 3 3 3-3"/></svg></span><h1 id="title">wanna be hikers</h1></a>
+      <button class="button primary" id="add-hero"><span aria-hidden="true">＋</span> Dodaj pohod</button>
     </header>
     <main>
-      <section class="hero" aria-labelledby="title">
-        <div class="hero-copy">
-          <span class="eyebrow"><span class="tiny-mountain" aria-hidden="true">△</span> OD REELA DO RAZGLEDA</span>
-          <h1 id="title">Baje se hod<br>v hribe<span>...</span></h1>
-          <p>Manj »to morava enkrat«.<br>Več »a sva že gor?«.</p>
-          <button class="button primary" id="add-hero"><span aria-hidden="true">＋</span> Dodaj pohod</button>
-        </div>
-        <div class="landscape" aria-hidden="true">
-          <svg viewBox="0 0 640 390" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="mountain" x1="0" y1="0" x2="0.5" y2="1"><stop stop-color="#28485a"/><stop offset="1" stop-color="#142c3b"/></linearGradient>
-              <linearGradient id="front" x2="0.7" y2="1"><stop stop-color="#254d44"/><stop offset="1" stop-color="#102f31"/></linearGradient>
-            </defs>
-            <g fill="none" stroke="#304858" stroke-width="1" opacity=".45"><path d="M35 270Q-30 80 180 70T580 155T550 345"/><path d="M65 255Q0 110 190 98T550 160T520 315"/><path d="M90 240Q45 135 205 125T520 170T490 290"/><path d="M120 230Q80 160 215 151T485 180T460 265"/></g>
-            <circle cx="478" cy="90" r="37" fill="#94bfba" opacity=".9"/>
-            <path d="m44 327 143-194 67 98 85-163 218 259Z" fill="url(#mountain)" stroke="#3c5c68" stroke-width="1.5"/>
-            <path d="m278 184 61-116 61 73-31-6-17 17-23-30-15 39-15-7Z" fill="#b9d5d3"/>
-            <path d="m155 177 32-44 37 55-26-13-13 7-13-16Z" fill="#96b8bd"/>
-            <path d="m339 68 34 116 46 30 49 113H245l54-93 15-80 15-32Z" fill="#0e2434" opacity=".55"/>
-            <path d="m14 337 120-85 80 35 88-90 129 86 77-50 127 104Z" fill="url(#front)" stroke="#346054" stroke-width="1.5"/>
-            <path d="M309 208c-45 53 89 58 33 88-28 15-83 11-91 43" fill="none" stroke="#8fbb8d" stroke-width="3" stroke-dasharray="5 7" stroke-linecap="round"/>
-            <path d="M299 203v-39l29 8-29 10" fill="#b3de88" stroke="#b3de88" stroke-width="2.5" stroke-linejoin="round"/>
-            <g fill="#102832" stroke="#315546" stroke-linejoin="round"><path d="m98 304 14-35 14 35h-8l15 25H91l15-25Z"/><path d="m490 293 18-43 18 43h-10l18 33h-53l18-33Z"/><path d="m536 313 11-28 11 28h-6l11 20h-32l11-20Z"/></g>
-            <path d="M43 342h547" stroke="#49635f" stroke-width="1"/>
-          </svg>
-          <span class="altitude-note">Signal mogoče izgine.<br>Ideja ostane.</span>
-        </div>
-      </section>
       <section class="stats" aria-label="Pregled pohodov">
         <div><span id="planned-count">—</span><p>idej za naslednjič</p></div>
         <div><span id="done-count">—</span><p>prehojenih pohodov</p></div>
@@ -69,6 +41,7 @@
       <p class="form-hint">Samo ime je obvezno. Ostalo lahko dodata sproti.</p>
       <label>Ime hriba ali pohoda <span class="required">*</span><input name="title" id="hike-title" required maxlength="160" placeholder="Npr. Velika planina" autocomplete="off"></label>
       <div class="form-grid"><label>Država <select name="country" id="hike-country"><option value="">Brez države</option></select></label><label>Zahtevnost <select name="difficulty"><option value="">Še ne veva</option><option value="easy">Lahko</option><option value="medium">Srednje</option><option value="hard">Težko</option></select></label></div>
+      <label id="custom-country-label" hidden>Druga država <input name="custom_country" id="custom-country" maxlength="80" placeholder="Vpiši ime države" autocomplete="country-name"></label>
       <label>Instagram reel <span class="optional">neobvezno</span><input name="reel_url" type="url" maxlength="2048" placeholder="https://www.instagram.com/reel/..." inputmode="url"></label>
       <label>Hribi.net <span class="optional">neobvezno</span><input name="hribi_url" type="url" maxlength="2048" placeholder="https://www.hribi.net/..." inputmode="url"></label>
       <label>Dodatne informacije / komentarji <textarea name="notes" maxlength="5000" rows="3" placeholder="Izhodišče, pot, kaj vzeti s sabo ... ali samo razlog, zakaj morava tja."></textarea></label>
@@ -77,7 +50,8 @@
       <div class="dialog-actions"><button type="button" class="button ghost close-dialog">Prekliči</button><button type="submit" class="button primary" id="save-hike">Dodaj na seznam</button></div>
     </form>
   </dialog>
-  <dialog id="action-dialog" aria-labelledby="action-title"><div class="dialog-heading"><div><span class="eyebrow" id="action-eyebrow">TO JE TO!</span><h2 id="action-title">Baje sva šla!</h2></div><button class="icon-button close-dialog" aria-label="Zapri">✕</button></div><form id="action-form"><p id="action-description"></p><label id="complete-label">Povezava do Strava aktivnosti <span class="required">*</span><input id="complete-strava" type="url" maxlength="2048" inputmode="url" placeholder="https://www.strava.com/activities/..." aria-describedby="strava-help"><span id="strava-help" class="field-help">Prilepi povezavo do aktivnosti ali kratko povezavo strava.app.link.</span></label><p class="form-error" id="action-error" role="alert" hidden></p><div class="dialog-actions"><button type="button" class="button ghost close-dialog">Prekliči</button><button type="submit" class="button primary" id="confirm-action">Shrani med prehojene</button></div></form></dialog>
+  <dialog id="action-dialog" aria-labelledby="action-title"><div class="dialog-heading"><div><span class="eyebrow" id="action-eyebrow">TO JE TO!</span><h2 id="action-title">Še en osvojen vrh!</h2></div><button class="icon-button close-dialog" aria-label="Zapri">✕</button></div><form id="action-form"><p id="action-description"></p><label id="complete-label">Povezava do Strava aktivnosti <span class="required">*</span><input id="complete-strava" type="url" maxlength="2048" inputmode="url" placeholder="https://www.strava.com/activities/..." aria-describedby="strava-help"><span id="strava-help" class="field-help">Prilepi povezavo do aktivnosti ali kratko povezavo strava.app.link.</span></label><p class="form-error" id="action-error" role="alert" hidden></p><div class="dialog-actions"><button type="button" class="button ghost close-dialog">Prekliči</button><button type="submit" class="button primary" id="confirm-action">Shrani med prehojene</button></div></form></dialog>
   <div id="toast" class="toast" role="status" hidden><span id="toast-message"></span><button id="undo" hidden>Razveljavi</button><button id="dismiss-toast" aria-label="Zapri obvestilo">✕</button></div>
 </body>
 </html>
+

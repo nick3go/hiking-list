@@ -5,3 +5,66 @@
 @media(max-width:900px){.shell{width:calc(100% - 48px)}.hero{padding:47px 0 40px}.stats>div{padding:0 25px;min-width:28%}.stats .stats-aside{display:none}.stats>div:last-of-type{border:0}.filters{flex-wrap:wrap}.search{flex-basis:100%}.filters>label:not(.search){flex:1}.filters select{width:100%;max-width:none}.altitude-note{bottom:-3%}.hero-copy>p{font-size:1rem}}
 @media(max-width:600px){.shell{width:calc(100% - 32px)}.topbar{padding:19px 0}.brand{font-size:.67rem;gap:10px;letter-spacing:.07em}.brand-icon{height:36px;width:36px;border-radius:10px}.top-note{display:none}.hero{display:block;padding:34px 0 22px;overflow:hidden}h1{font-size:3.1rem;margin-top:19px}.hero-copy{position:relative;z-index:1}.hero-copy>p{font-size:1rem}.landscape{position:relative;margin:-75px -45px 0 75px;opacity:.7;pointer-events:none}.landscape svg{width:100%;margin:0}.altitude-note{display:none}.hero .primary{position:relative;z-index:2}.stats{padding:18px 15px;border-radius:11px}.stats>div{padding:0 12px;min-width:0;width:33.333%;text-align:center}.stats>div:first-child{padding-left:0}.stats>div:last-of-type{padding-right:0}.stats>div>span{font-size:1.6rem}.stats p{font-size:.7rem;line-height:1.5}.collection{margin-top:29px}.collection-heading{padding-bottom:11px}.collection-heading>.button{display:none}.tabs{gap:22px}.tabs button{font-size:.92rem;padding:12px 0}.tabs button[aria-selected=true]:after{bottom:-12px}.filters{margin:20px 0;gap:8px}.filters select{font-size:.8rem;padding-left:10px}.hike{padding:18px 14px;gap:12px}.hike h3{font-size:1.12rem}.hike-title-row{gap:8px}.difficulty{margin-left:0;font-size:.7rem;padding:4px 8px}.hike-notes{font-size:.875rem}.flag{font-size:1.2rem}.complete-button{width:27px;height:27px}.hike-actions{gap:0}.source-link{font-size:.75rem;padding:6px 8px}.hike-bottom{gap:6px}.empty{padding:37px 15px}.empty p{font-size:.875rem}footer{font-size:.7rem;padding:22px 0;gap:12px;margin-top:32px}footer span:last-child{text-align:right}dialog{padding:23px 20px;max-height:calc(100dvh - 24px)}.dialog-actions .button{padding:12px 15px;font-size:.85rem}.toast{bottom:16px;gap:9px;padding:12px;font-size:.8rem}.form-grid{gap:12px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* Compact shared list */
+.shell{width:min(1120px,calc(100% - 48px))}
+.topbar{padding:18px 0;gap:16px}
+.brand{gap:10px;letter-spacing:0}
+.brand h1{font-size:1.35rem;line-height:1.25;letter-spacing:-.035em;margin:0;font-weight:800}
+.brand-icon{width:36px;height:36px;border-radius:10px}
+.brand-icon svg{width:27px}
+.button{padding:10px 16px;min-height:42px}
+.stats{padding:12px 0;background:none;border:0;border-radius:0;gap:22px;flex-wrap:wrap}
+.stats>div,.stats>div:first-child,.stats>div:last-of-type{display:flex;align-items:baseline;gap:7px;min-width:0;width:auto;padding:0;border:0;text-align:left}
+.stats>div>span{font-size:1.05rem}
+.stats p{margin:0;font-size:.8rem}
+.stats .stats-aside{display:none}
+.collection{margin-top:6px}
+.collection-heading{padding-bottom:9px}
+.tabs button{padding:9px 0}
+.tabs button[aria-selected=true]:after{bottom:-10px}
+.filters{margin:14px 0;gap:10px}
+#hikes{gap:7px}
+.hike{padding:11px 14px;gap:12px;border-radius:9px}
+.hike-title-row{gap:9px}
+.hike h3{font-size:1rem}
+.flag{font-size:1.1rem}
+.country-text{font-size:.8rem;color:var(--muted)}
+.difficulty{margin-left:0;padding:4px 8px;font-size:.75rem}
+.hike-bottom{margin:0 0 0 auto;gap:7px}
+.source-link{min-height:32px;padding:5px 8px;font-size:.8rem}
+.hike-actions{margin-left:3px}
+.hike-notes{font-size:.875rem;line-height:1.5;margin:5px 0 0}
+.complete-button{width:28px;height:28px;margin-top:2px}
+.empty{padding:26px 18px}
+.empty-icon{width:48px;height:48px;margin-bottom:12px;border-radius:14px}
+.empty-icon svg{width:30px;height:30px}
+.empty h3{font-size:1.1rem}
+.empty p{margin-bottom:15px}
+.result-count{margin-top:11px}
+footer{margin-top:24px;padding:18px 0}
+@media(max-width:760px){
+.hike-title-row{gap:8px}
+.hike-bottom{flex-basis:100%;margin:3px 0 0}
+.hike-actions{margin-left:auto}
+.filters{flex-wrap:wrap}
+.search{flex-basis:100%}
+.filters>label:not(.search){flex:1}
+.filters select{width:100%;max-width:none}
+}
+@media(max-width:600px){
+.shell{width:calc(100% - 24px)}
+.topbar{padding:13px 0;gap:10px}
+.brand h1{font-size:1.1rem}
+.brand-icon{width:30px;height:30px}
+.brand-icon svg{width:24px}
+.topbar .button{font-size:.8rem;padding:9px 10px}
+.stats{gap:8px 15px;padding:12px 0}
+.stats>div>span{font-size:1rem}
+.stats p{font-size:.75rem}
+.collection{margin-top:2px}
+.hike{padding:10px;gap:10px}
+.hike h3{font-size:1rem}
+.source-link{font-size:.8rem}
+}
+

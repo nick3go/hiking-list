@@ -1,8 +1,10 @@
-# Baje se hod v hribe...
+# wanna be hikers
 
 Skupni seznam idej za pohode. Slovenski vmesnik, modro-zelena tema in podatki v Supabase.
 
 - Dodajanje in urejanje: ime, država z zastavo, neobvezna zahtevnost, Instagram reel, Hribi.net in komentarji.
+- Hitra izbira države: Slovenija, Avstrija, Italija ali ročni vnos poljubne države.
+- Kompaktna postavitev brez velikega uvodnega naslova.
 - Za dokončanje je obvezna povezava do Strava aktivnosti (tudi `strava.app.link`).
 - Ločena seznama načrtovanih in prehojenih pohodov; iskanje in filtri.
 - Vrnitev prehojenega pohoda med načrtovane; odstranitev z možnostjo razveljavitve.

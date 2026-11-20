@@ -14,11 +14,25 @@ const icons = {
 };
 const countryCodes = 'AF AL DZ AS AD AO AI AQ AG AR AM AW AU AT AZ BS BH BD BB BY BE BZ BJ BM BT BO BQ BA BW BV BR IO BN BG BF BI CV KH CM CA KY CF TD CL CN CX CC CO KM CG CD CK CR CI HR CU CW CY CZ DK DJ DM DO EC EG SV GQ ER EE SZ ET FK FO FJ FI FR GF PF TF GA GM GE DE GH GI GR GL GD GP GU GT GG GN GW GY HT HM VA HN HK HU IS IN ID IR IQ IE IM IL IT JM JP JE JO KZ KE KI KP KR KW KG LA LV LB LS LR LY LI LT LU MO MG MW MY MV ML MT MH MQ MR MU YT MX FM MD MC MN ME MS MA MZ MM NA NR NP NL NC NZ NI NE NG NU NF MK MP NO OM PK PW PS PA PG PY PE PH PN PL PT PR QA RE RO RU RW BL SH KN LC MF PM VC WS SM ST SA SN RS SC SL SG SX SK SI SB SO ZA GS SS ES LK SD SR SJ SE CH SY TW TJ TZ TH TL TG TK TO TT TN TR TM TC TV UG UA AE GB US UM UY UZ VU VE VN VG VI WF EH YE ZM ZW'.split(' ');
 const regionNames = new Intl.DisplayNames(['sl'], {type:'region'});
-const countryName = code => code ? regionNames.of(code) : '';
+const countryName = code => /^[A-Z]{2}$/.test(code ?? '') ? regionNames.of(code) : (code || '');
 const flag = code => /^[A-Z]{2}$/.test(code ?? '') ? [...code].map(char => String.fromCodePoint(127397 + char.charCodeAt(0))).join('') : '';
 const countries = countryCodes.map(code => ({code,name:countryName(code)})).sort((a,b) => a.name.localeCompare(b.name,'sl'));
-const option = ({code,name}) => `<option value="${code}">${flag(code)} ${esc(name)}</option>`;
-$('#hike-country').insertAdjacentHTML('beforeend', countries.map(option).join(''));
+const option = ({code,name}) => `<option value="${esc(code)}">${flag(code) || '🌍'} ${esc(name)}</option>`;
+$('#hike-country').insertAdjacentHTML('beforeend', countries.filter(c => ['SI','AT','IT'].includes(c.code)).sort((a,b) => ['SI','AT','IT'].indexOf(a.code)-['SI','AT','IT'].indexOf(b.code)).map(option).join('') + '<option value="custom">Druga država...</option>');
+const englishNames = new Intl.DisplayNames(['en'], {type:'region'});
+const normalizeCountry = value => {
+  const text = value.trim();
+  const key = text.toLocaleLowerCase('sl');
+  const found = countries.find(c => [c.name, englishNames.of(c.code), c.code].some(name => name.toLocaleLowerCase('sl') === key));
+  return found ? found.code : text;
+};
+function toggleCustomCountry() {
+  const custom = $('#hike-country').value === 'custom';
+  $('#custom-country-label').hidden = !custom;
+  $('#custom-country').required = custom;
+  if (custom) $('#custom-country').focus();
+}
+$('#hike-country').addEventListener('change', toggleCustomCountry);
 const difficulties = {easy:'Lahko',medium:'Srednje',hard:'Težko'};
 let hikes = [];
 let activeTab = 'planned';
@@ -55,7 +69,7 @@ async function api(action, data = {}) {
 function syncCountryFilter() {
   const selected = $('#country-filter').value;
   const available = new Set(hikes.map(h => h.country).filter(Boolean));
-  $('#country-filter').innerHTML = '<option value="">Vse države</option>' + countries.filter(c => available.has(c.code)).map(option).join('');
+  $('#country-filter').innerHTML = '<option value="">Vse države</option>' + [...available].sort((a,b) => countryName(a).localeCompare(countryName(b),'sl')).map(code => option({code,name:countryName(code)})).join('');
   if (available.has(selected)) $('#country-filter').value = selected;
 }
 
@@ -95,10 +109,10 @@ function card(hike) {
   const badge = difficulties[hike.difficulty] ? `<span class="difficulty ${hike.difficulty}">${icons.bars}${difficulties[hike.difficulty]}</span>` : '';
   return `<article class="hike" data-id="${esc(hike.id)}" aria-label="${title}">
     <button class="complete-button ${hike.completed?'done':''}" data-action="${hike.completed?'reopen':'complete'}" aria-label="${hike.completed?'Vrni na seznam':'Označi kot prehojeno'}: ${title}" title="${hike.completed?'Vrni na seznam':'Označi kot prehojeno'}">${icons.check}</button>
-    <div class="hike-main"><div class="hike-title-row"><h3>${title}</h3>${hike.country?`<span class="flag" role="img" aria-label="${esc(countryName(hike.country))}" title="${esc(countryName(hike.country))}">${flag(hike.country)}</span>`:''}${badge}</div>
-    ${hike.notes?`<p class="hike-notes">${esc(hike.notes)}</p>`:''}
+    <div class="hike-main"><div class="hike-title-row"><h3>${title}</h3>${hike.country?`<span class="flag" role="img" aria-label="${esc(countryName(hike.country))}" title="${esc(countryName(hike.country))}">${flag(hike.country) || `🌍 <span class="country-text">${esc(countryName(hike.country))}</span>`}</span>`:''}${badge}
     <div class="hike-bottom">${sourceLink(hike.reel_url,'Reel','instagram')}${sourceLink(hike.hribi_url,'Hribi.net','mountain')}${hike.completed?sourceLink(hike.strava_url,'Strava','strava','strava'):''}
-    <div class="hike-actions"><button class="icon-button" data-action="edit" aria-label="Uredi: ${title}" title="Uredi pohod">${icons.edit}</button><button class="icon-button" data-action="delete" aria-label="Odstrani: ${title}" title="Odstrani pohod">${icons.trash}</button></div></div></div></article>`;
+    <div class="hike-actions"><button class="icon-button" data-action="edit" aria-label="Uredi: ${title}" title="Uredi pohod">${icons.edit}</button><button class="icon-button" data-action="delete" aria-label="Odstrani: ${title}" title="Odstrani pohod">${icons.trash}</button></div></div></div>
+    ${hike.notes?`<p class="hike-notes">${esc(hike.notes)}</p>`:''}</div></article>`;
 }
 
 function render() {
@@ -147,7 +161,11 @@ function openForm(hike = null) {
   $('#save-hike').textContent = hike ? 'Shrani spremembe' : 'Dodaj na seznam';
   $('#edit-strava-label').hidden = !hike?.completed;
   $('#hike-form').elements.strava_url.required = Boolean(hike?.completed);
-  if (hike) for (const name of ['title','country','difficulty','reel_url','hribi_url','notes','strava_url']) $('#hike-form').elements[name].value = hike[name] ?? '';
+  if (hike) for (const name of ['title','difficulty','reel_url','hribi_url','notes','strava_url']) $('#hike-form').elements[name].value = hike[name] ?? '';
+  const country = hike?.country || '';
+  $('#hike-country').value = country && !['SI','AT','IT'].includes(country) ? 'custom' : country;
+  $('#custom-country').value = $('#hike-country').value === 'custom' ? countryName(country) : '';
+  toggleCustomCountry();
   $('#hike-dialog').showModal();
   $('#hike-title').focus();
 }
@@ -159,7 +177,7 @@ function openAction(hike, action) {
   $('#complete-label').hidden = action !== 'complete';
   $('#complete-strava').required = action === 'complete';
   const copy = {
-    complete:['TO JE TO!','Baje sva šla!',`»${hike.title}« gre med prehojene. Dodaj povezavo do aktivnosti za spomin na vse tiste višince.`,'Shrani med prehojene'],
+    complete:['TO JE TO!','Še en osvojen vrh!',`»${hike.title}« gre med prehojene. Dodaj povezavo do aktivnosti za spomin na vse tiste višince.`,'Shrani med prehojene'],
     reopen:['ŠE ENKRAT NA POT','Spet na seznam?',`»${hike.title}« bo spet med načrtovanimi pohodi. Povezava do prejšnje Strava aktivnosti bo odstranjena s tega vpisa.`,'Vrni na seznam'],
     delete:['SPREMEMBA NAČRTA','Ta hrib pa kdaj drugič?',`Želiš odstraniti »${hike.title}« s seznama? Takoj po odstranitvi lahko dejanje razveljaviš.`,'Odstrani pohod'],
   }[action];
@@ -218,6 +236,9 @@ $('#hike-form').addEventListener('submit', async event => {
   const data = Object.fromEntries(new FormData(event.target));
   for (const key in data) data[key] = data[key].trim();
   try {
+    if (data.country === 'custom' && !data.custom_country) throw new Error('Vpiši ime druge države.');
+    data.country = data.country === 'custom' ? normalizeCountry(data.custom_country) : data.country;
+    delete data.custom_country;
     if (!data.title) throw new Error('Vpiši ime hriba ali pohoda.');
     validateSource(data.reel_url,'instagram.com','Instagram reel');
     validateSource(data.hribi_url,'hribi.net','Hribi.net');
@@ -295,3 +316,4 @@ document.querySelectorAll('input[type=url]').forEach(input=>input.addEventListen
 setInterval(()=>{if(!document.hidden&&!isSaving&&!document.querySelector('dialog[open]'))load();},30000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&!isSaving&&!document.querySelector('dialog[open]'))load();});
 load();
+
